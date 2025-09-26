@@ -18,6 +18,9 @@ namespace Platformer {
                 window.SetFramerateLimit(60);
 
                 Clock clock = new Clock();
+                
+                Piece.InitializePieces();
+                
                 Scene scene = new Scene();
                 
                 while (window.IsOpen) {

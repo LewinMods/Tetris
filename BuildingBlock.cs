@@ -5,7 +5,7 @@ namespace Platformer;
 
 public class BuildingBlock : Entity
 {
-    private static IntRect[] colors = new IntRect[5]
+    public static IntRect[] Colors = new IntRect[5]
     {
         new IntRect(32,0,16,16),
         new IntRect(48,0,16,16),
@@ -14,11 +14,17 @@ public class BuildingBlock : Entity
         new IntRect(16,16,16,16),
     };
     
-    public BuildingBlock() : base("tilemap")
+    public Vector2f OriginalPos;
+    private Piece piece;
+    
+    public BuildingBlock(IntRect random, Piece piece) : base("tilemap")
     {
-        int random = new Random().Next(0, colors.Length);
-        
-        sprite.TextureRect = colors[random];
-        BuildingBlock[,] lalal =  new BuildingBlock[3, 3];
+        sprite.TextureRect = random;
+        this.piece = piece;
+    }
+
+    public override void Update(float deltaTime)
+    {
+        sprite.Position = OriginalPos + piece.Position;
     }
 }

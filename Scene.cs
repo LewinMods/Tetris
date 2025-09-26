@@ -6,20 +6,16 @@ namespace Platformer;
 public class Scene
 {
     private List<Entity> entities;
+    private List<Piece> pieces;
     private Dictionary<string, Texture> textures;
 
     public Scene()
     {
         entities = new List<Entity>();
         textures = new Dictionary<string, Texture>();
-
-        for (int i = 0; i < 40; i++)
-        {
-            int r = new Random().Next(0, 500);
-            int r1 = new Random().Next(0, 800);
-            
-            Spawn(new BuildingBlock() {Position = new Vector2f(r,r1)});
-        }
+        pieces = new List<Piece>();
+        
+        CreatePiece();
     }
 
     public Texture LoadTexture(string name)
@@ -35,6 +31,11 @@ public class Scene
         return texture;
     }
 
+    public void CreatePiece()
+    {
+        pieces.Add(new Piece(this));
+    }
+
     public void Spawn(Entity entity)
     {
         entities.Add(entity);
@@ -46,6 +47,11 @@ public class Scene
         for (int i = entities.Count - 1; i >= 0; i--)
         {
             entities[i].Update(deltaTime);
+        }
+        
+        for (int i = pieces.Count - 1; i >= 0; i--)
+        {
+            pieces[i].Update();
         }
     }
 
