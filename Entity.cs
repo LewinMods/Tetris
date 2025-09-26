@@ -19,7 +19,7 @@ public abstract class Entity
         sprite.Texture = scene.LoadTexture(texture);
     }
 
-    public Vector2f Position
+    public virtual Vector2f Position
     {
         get { return sprite.Position; }
         set { sprite.Position = value; }
