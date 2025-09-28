@@ -5,10 +5,10 @@ namespace Platformer;
 
 public abstract class Entity
 {
-    public readonly Sprite sprite;
+    protected readonly Sprite sprite;
     private readonly string texture;
 
-    public Entity(string textureName)
+    protected Entity(string textureName)
     {
         texture = textureName;
         sprite = new Sprite();
