@@ -7,6 +7,8 @@ public abstract class Entity
 {
     protected readonly Sprite sprite;
     private readonly string texture;
+    
+    public bool Dead = false;
 
     protected Entity(string textureName)
     {
@@ -34,4 +36,8 @@ public abstract class Entity
     {
         target.Draw(sprite);
     }
+    
+    public virtual FloatRect Bounds => sprite.GetGlobalBounds();
+
+    public virtual bool Solid => true;
 }

@@ -1,4 +1,5 @@
-﻿using SFML.System;
+﻿using SFML.Graphics;
+using SFML.System;
 
 namespace Platformer;
 
@@ -60,6 +61,13 @@ public class Piece
     private static int[][,] pieces;
 
     private static Clock clock;
+
+    private int dir = 0;
+    private int speed = 1000;
+    
+    private bool placed = false;
+
+    private BuildingBlock[,] selectedPiece;
     
     public Piece(Scene scene)
     {
@@ -69,7 +77,7 @@ public class Piece
         
         int[,] chosen = pieces[r];
         
-        BuildingBlock[,] selectedPiece = new BuildingBlock[chosen.GetLength(0), chosen.GetLength(1)];
+        selectedPiece = new BuildingBlock[chosen.GetLength(0), chosen.GetLength(1)];
         
         int random = new Random().Next(0, BuildingBlock.Colors.Length);
         
@@ -78,15 +86,19 @@ public class Piece
             for (int y = 0; y < chosen.GetLength(1); y++)
             {
                 if (chosen[x, y] == 0) continue;
+                
                 selectedPiece[x, y] = new BuildingBlock(
                     BuildingBlock.Colors[random], this) {
                     OriginalPos = new Vector2f(y * 16, x * 16)
                 };
+                
                 scene.Spawn(selectedPiece[x, y]);
             }
         }
 
         Position -= new Vector2f(chosen.GetLength(0)*8, 0);
+        
+        scene.inputManager.InputHit += PrintHit;
     }
     
     public static void InitializePieces()
@@ -105,13 +117,46 @@ public class Piece
         };
     }
 
-    public void Update()
+    public void Update(Scene scene)
     {
-        if (clock.ElapsedTime.AsMilliseconds() >= 1000 && Placed == false)
+        placed = CheckCollishion(scene);
+        
+        if (clock.ElapsedTime.AsMilliseconds() >= speed && Placed == false && !placed)
         {
             clock.Restart();
             
             Position += new Vector2f(0, 16);
         }
+    }
+
+    private void PrintHit(string hit)
+    {
+        switch (hit)
+        {
+            case "A":
+                dir = -16;
+                break;
+            case "D":
+                dir = 16;
+                break;
+        }
+        
+        Position += new Vector2f(dir, 0);
+
+        dir = 0;
+    }
+
+    private bool CheckCollishion(Scene scene)
+    {
+        foreach (Entity block in selectedPiece)
+        {
+            Vector2f at = Position + new Vector2f(9, 9);
+            at += new Vector2f(0, 18);
+            FloatRect rect = new FloatRect(at.X, at.Y, 1, 1);
+            
+            return scene.FindIntersects(rect).Any(e => e.Solid);
+        }
+        
+        return false;
     }
 }
