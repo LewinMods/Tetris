@@ -28,7 +28,7 @@ namespace Platformer {
                     window.DispatchEvents();
                     float deltaTime = clock.Restart().AsSeconds();
                     
-                    scene.UpdateAll(deltaTime);
+                    scene.UpdateAll(scene, deltaTime);
 
                     window.Clear();
                     
