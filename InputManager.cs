@@ -1,8 +1,8 @@
 ﻿using SFML.Window;
 
-namespace Platformer;
+namespace Tetris;
 
-public delegate void InputEvent(string key);
+public delegate void InputEvent(Scene scene, string key);
 
 public class InputManager
 {
@@ -21,7 +21,7 @@ public class InputManager
         }
     }
 
-    public void Update()
+    public void Update(Scene scene)
     {
         foreach (var key in keys)
         {
@@ -32,7 +32,7 @@ public class InputManager
                 
                 if (isPressed && !wasPressed)
                 {
-                    InputHit?.Invoke(key);
+                    InputHit?.Invoke(scene, key);
                 }
                 
                 previousKeyStates[key] = isPressed;

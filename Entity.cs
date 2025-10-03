@@ -1,7 +1,7 @@
 ﻿using SFML.Graphics;
 using SFML.System;
 
-namespace Platformer;
+namespace Tetris;
 
 public abstract class Entity
 {
@@ -21,7 +21,7 @@ public abstract class Entity
         sprite.Texture = scene.LoadTexture(texture);
     }
 
-    public virtual Vector2f Position
+    public Vector2f Position
     {
         get { return sprite.Position; }
         set { sprite.Position = value; }
@@ -40,4 +40,9 @@ public abstract class Entity
     public virtual FloatRect Bounds => sprite.GetGlobalBounds();
 
     public virtual bool Solid => true;
+
+    public virtual void Destroy(Scene scene)
+    {
+        
+    }
 }

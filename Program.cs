@@ -3,7 +3,7 @@ using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 
-namespace Platformer {
+namespace Tetris {
     
     class Program {
         
@@ -14,6 +14,11 @@ namespace Platformer {
             using (var window = new RenderWindow(new VideoMode(ScreenWidth, ScreenHeight), "Tetris")) {
                 
                 window.Closed += (o, e) => window.Close();
+                
+                window.SetView(new View(
+                    new Vector2f(ScreenWidth / 2f, ScreenHeight / 2f) / 2,
+                    new Vector2f(ScreenWidth, ScreenHeight) / 2
+                ));
                 
                 window.SetFramerateLimit(60);
 

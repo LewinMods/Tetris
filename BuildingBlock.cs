@@ -1,7 +1,7 @@
 ﻿using SFML.Graphics;
 using SFML.System;
 
-namespace Platformer;
+namespace Tetris;
 
 public class BuildingBlock : Entity
 {
@@ -25,6 +25,9 @@ public class BuildingBlock : Entity
 
     public override void Update(float deltaTime)
     {
-        sprite.Position = OriginalPos + piece.Position;
+        if (!piece.Placed)
+        {
+            Position = OriginalPos + piece.Position;
+        }
     }
 }
